@@ -1,0 +1,14 @@
+{
+  "proyecto": "Project",
+  "material": "Material",
+  "inventario": "Inventory",
+  "movimiento": "Movement",
+  "entrada": "Entry",
+  "salida": "Exit",
+  "excedente": "Surplus",
+  "faltante": "Shortage",
+  "stock_critico": "Critical Stock",
+  "cantidad_actual": "Current Quantity",
+  "cantidad_minima": "Minimum Quantity",
+  "cantidad_maxima": "Maximum Quantity"
+}

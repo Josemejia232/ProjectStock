@@ -1,0 +1,14 @@
+{
+  "proyecto": "Proyecto",
+  "material": "Material",
+  "inventario": "Inventario",
+  "movimiento": "Movimiento",
+  "entrada": "Entrada",
+  "salida": "Salida",
+  "excedente": "Excedente",
+  "faltante": "Faltante",
+  "stock_critico": "Stock Crítico",
+  "cantidad_actual": "Cantidad Actual",
+  "cantidad_minima": "Cantidad Mínima",
+  "cantidad_maxima": "Cantidad Máxima"
+}

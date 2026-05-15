@@ -10,7 +10,10 @@ from app.routers import proyectos, materiales, inventario, movimientos, reportes
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await init_db()
+    try:
+        await init_db()
+    except Exception as e:
+        print(f"[WARN] Database init failed: {e}")
     yield
 
 

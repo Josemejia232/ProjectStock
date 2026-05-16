@@ -41,7 +41,9 @@ app.include_router(facturas.router)
 app.include_router(requisiciones.router)
 
 
-# Montar frontend compilado si existe (local dev y Vercel con includeFiles)
-_dist = _os.path.join(_os.path.dirname(__file__), "../../frontend/dist")
+# Montar frontend compilado si existe (local dev: frontend/dist, Vercel: backend/static)
+_dist = _os.path.join(_os.path.dirname(__file__), "../static")
+if not _os.path.exists(_dist):
+    _dist = _os.path.join(_os.path.dirname(__file__), "../../frontend/dist")
 if _os.path.exists(_dist):
     app.mount("/", StaticFiles(directory=_dist, html=True), name="frontend")

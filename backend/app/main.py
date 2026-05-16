@@ -41,10 +41,7 @@ app.include_router(facturas.router)
 app.include_router(requisiciones.router)
 
 
-# Montar frontend compilado solo si existe y NO estamos en Vercel
-_on_vercel = _os.environ.get("VERCEL") == "1"
+# Montar frontend compilado si existe (local dev y Vercel con includeFiles)
 _dist = _os.path.join(_os.path.dirname(__file__), "../../frontend/dist")
-if not _on_vercel and _os.path.exists(_dist):
+if _os.path.exists(_dist):
     app.mount("/", StaticFiles(directory=_dist, html=True), name="frontend")
-
-# Frontend served by Vercel static hosting; root handler removed

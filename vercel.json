@@ -1,7 +1,6 @@
 {
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
-  "directoryListing": false,
   "routes": [
     { "src": "/api/(.*)", "dest": "api/app.py" },
     { "handle": "filesystem" },

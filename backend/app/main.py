@@ -47,7 +47,4 @@ _dist = _os.path.join(_os.path.dirname(__file__), "../../frontend/dist")
 if not _on_vercel and _os.path.exists(_dist):
     app.mount("/", StaticFiles(directory=_dist, html=True), name="frontend")
 
-if _on_vercel or not _os.path.exists(_dist):
-    @app.get("/")
-    async def root():
-        return {"message": "ProjectStock API", "docs": "/docs"}
+# Frontend served by Vercel static hosting; root handler removed

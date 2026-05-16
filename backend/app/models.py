@@ -6,6 +6,10 @@ import enum
 from app.database import Base
 
 
+def _now():
+    return datetime.now(timezone.utc).replace(tzinfo=None)
+
+
 class EstadoProyecto(str, enum.Enum):
     EJECUCION = "ejecucion"
     PAUSADO = "pausado"
@@ -27,11 +31,11 @@ class Proyecto(Base):
     responsable = Column(String(200), default="")
     email = Column(String(200), default="")
     movil = Column(String(50), default="")
-    fecha_inicio = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    fecha_inicio = Column(DateTime, default=_now)
     fecha_fin = Column(DateTime, nullable=True)
     estado = Column(String(20), default=EstadoProyecto.EJECUCION.value)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=_now)
+    updated_at = Column(DateTime, default=_now, onupdate=_now)
 
     inventarios = relationship("Inventario", back_populates="proyecto", cascade="all, delete-orphan")
     movimientos = relationship("Movimiento", back_populates="proyecto", cascade="all, delete-orphan")
@@ -46,7 +50,7 @@ class Material(Base):
     categoria = Column(String(100), default="General")
     precio_unitario = Column(Float, default=0.0)
     proveedor = Column(String(200), default="")
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=_now)
 
     inventarios = relationship("Inventario", back_populates="material", cascade="all, delete-orphan")
     movimientos = relationship("Movimiento", back_populates="material", cascade="all, delete-orphan")
@@ -61,7 +65,7 @@ class Inventario(Base):
     cantidad_actual = Column(Float, default=0.0)
     cantidad_minima = Column(Float, default=0.0)
     cantidad_maxima = Column(Float, default=0.0)
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=_now, onupdate=_now)
 
     proyecto = relationship("Proyecto", back_populates="inventarios")
     material = relationship("Material", back_populates="inventarios")
@@ -79,7 +83,7 @@ class Movimiento(Base):
     usuario = Column(String(100), default="")
     no_remision = Column(String(100), default="")
     categoria = Column(String(20), default="normal")
-    fecha = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    fecha = Column(DateTime, default=_now)
 
     proyecto = relationship("Proyecto", back_populates="movimientos")
     material = relationship("Material", back_populates="movimientos")
@@ -92,7 +96,7 @@ class PrecioHistorico(Base):
     material_id = Column(Integer, ForeignKey("materiales.id", ondelete="CASCADE"), nullable=False)
     precio_anterior = Column(Float, default=0.0)
     precio_nuevo = Column(Float, default=0.0)
-    fecha = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    fecha = Column(DateTime, default=_now)
 
     material = relationship("Material")
 
@@ -101,12 +105,12 @@ class Factura(Base):
     __tablename__ = "facturas"
 
     id = Column(Integer, primary_key=True, index=True)
-    fecha = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    fecha = Column(DateTime, default=_now)
     no_factura = Column(String(100), nullable=False)
     proveedor = Column(String(200), default="")
     insumo = Column(String(300), default="")
     valor = Column(Float, default=0.0)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=_now)
 
 
 class Requisicion(Base):
@@ -119,7 +123,7 @@ class Requisicion(Base):
     destino_uso = Column(String(300), default="")
     aprobado_por = Column(String(200), default="")
     elaborado_por = Column(String(200), default="")
-    fecha_solicitud = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    fecha_solicitud = Column(DateTime, default=_now)
     estado = Column(String(20), default="pendiente")
 
     proyecto = relationship("Proyecto")

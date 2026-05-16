@@ -13,7 +13,7 @@ async def seed():
             print("La base de datos ya tiene datos. Omitiendo seed.")
             return
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(timezone.utc).replace(tzinfo=None)
 
         # Proyectos con nuevos estados
         proys = [

@@ -5,6 +5,8 @@ from sqlalchemy.orm import DeclarativeBase
 _raw = _os.environ.get("DATABASE_URL", "sqlite+aiosqlite:///./inventario.db")
 if _raw.startswith("postgresql://") and "+asyncpg" not in _raw:
     _raw = _raw.replace("postgresql://", "postgresql+asyncpg://")
+import re as _re
+_raw = _re.sub(r"\?.*", "", _raw)
 DATABASE_URL = _raw
 
 engine = create_async_engine(DATABASE_URL, echo=False)

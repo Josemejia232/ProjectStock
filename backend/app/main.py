@@ -35,8 +35,9 @@ app.add_middleware(
 
 @app.middleware("http")
 async def add_trailing_slash(request: Request, call_next):
-    if request.url.path.startswith("/api/") and not request.url.path.endswith("/"):
-        return RedirectResponse(request.url.path + "/", status_code=307)
+    path = request.url.path
+    if path.startswith("/api/") and "/" not in path[5:] and not path.endswith("/"):
+        return RedirectResponse(path + "/", status_code=307)
     return await call_next(request)
 
 app.include_router(proyectos.router)

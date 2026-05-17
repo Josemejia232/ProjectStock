@@ -280,3 +280,21 @@ class DashboardOut(BaseModel):
     excedentes: int
     faltantes: int
     stock_critico: int
+
+
+class UsuarioSync(BaseModel):
+    supabase_id: str
+    email: str
+    nombre: str
+
+
+class UsuarioOut(BaseModel):
+    id: int
+    supabase_id: str
+    email: str
+    nombre: str
+    rol: str
+    created_at: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True

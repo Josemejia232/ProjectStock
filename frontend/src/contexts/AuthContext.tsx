@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import { supabase } from '../lib/supabase'
+import { usuariosApi } from '../api/client'
 import type { User, Session } from '@supabase/supabase-js'
 
 interface AuthContextType {
@@ -16,6 +17,18 @@ const AuthContext = createContext<AuthContextType>({
   signOut: async () => {},
 })
 
+async function syncUser(user: User) {
+  try {
+    await usuariosApi.sync({
+      supabase_id: user.id,
+      email: user.email || '',
+      nombre: user.user_metadata?.nombre || user.email?.split('@')[0] || '',
+    })
+  } catch {
+    // Silently fail - backend might not be running
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
@@ -25,12 +38,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       setUser(session?.user ?? null)
+      if (session?.user) syncUser(session.user)
       setLoading(false)
     })
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session)
       setUser(session?.user ?? null)
+      if (session?.user) syncUser(session.user)
       setLoading(false)
     })
 

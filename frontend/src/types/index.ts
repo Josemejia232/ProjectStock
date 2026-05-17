@@ -206,3 +206,12 @@ export interface Dashboard {
   faltantes: number
   stock_critico: number
 }
+
+export interface Usuario {
+  id: number
+  supabase_id: string
+  email: string
+  nombre: string
+  rol: string
+  created_at?: string
+}

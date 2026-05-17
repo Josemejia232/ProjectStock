@@ -130,6 +130,17 @@ class Requisicion(Base):
     detalles = relationship("RequisicionDetalle", back_populates="requisicion", cascade="all, delete-orphan")
 
 
+class Usuario(Base):
+    __tablename__ = "usuarios"
+
+    id = Column(Integer, primary_key=True, index=True)
+    supabase_id = Column(String(255), nullable=False, unique=True)
+    email = Column(String(255), nullable=False)
+    nombre = Column(String(200), default="")
+    rol = Column(String(50), default="usuario")
+    created_at = Column(DateTime, default=_now)
+
+
 class RequisicionDetalle(Base):
     __tablename__ = "requisiciones_detalle"
 

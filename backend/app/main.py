@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
 
 from app.database import init_db
-from app.routers import proyectos, materiales, inventario, movimientos, reportes, facturas, requisiciones
+from app.routers import proyectos, materiales, inventario, movimientos, reportes, facturas, requisiciones, usuarios
 
 
 @asynccontextmanager
@@ -47,6 +47,7 @@ app.include_router(movimientos.router)
 app.include_router(reportes.router)
 app.include_router(facturas.router)
 app.include_router(requisiciones.router)
+app.include_router(usuarios.router)
 
 
 # Montar frontend compilado si existe (local dev: frontend/dist, Vercel: backend/static)

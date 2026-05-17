@@ -81,3 +81,10 @@ export const reportesApi = {
   movimientosPorMes: () => api.get('/reportes/movimientos-por-mes').then(r => r.data),
   insumosPorProyecto: () => api.get<InsumoPorProyecto>('/reportes/insumos-por-proyecto').then(r => r.data),
 }
+
+export const usuariosApi = {
+  sync: (d: { supabase_id: string; email: string; nombre: string }) =>
+    api.post('/usuarios/sync', d).then(r => r.data),
+  get: (supabase_id: string) =>
+    api.get(`/usuarios/me/${supabase_id}`).then(r => r.data),
+}

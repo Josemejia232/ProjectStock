@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
+import LandingPage from './pages/LandingPage'
 import DashboardPage from './pages/DashboardPage'
 import ProyectosPage from './pages/ProyectosPage'
 import MaterialesPage from './pages/MaterialesPage'
@@ -13,9 +14,10 @@ import ReporteInsumosPage from './pages/ReporteInsumosPage'
 export default function App() {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<DashboardPage />} />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/proyectos" element={<ProyectosPage />} />
           <Route path="/materiales" element={<MaterialesPage />} />
           <Route path="/inventario" element={<InventarioPage />} />
@@ -24,8 +26,8 @@ export default function App() {
           <Route path="/facturas" element={<FacturasPage />} />
           <Route path="/requisiciones" element={<RequisicionesPage />} />
           <Route path="/reporte-insumos" element={<ReporteInsumosPage />} />
-        </Routes>
-      </Layout>
+        </Route>
+      </Routes>
     </BrowserRouter>
   )
 }

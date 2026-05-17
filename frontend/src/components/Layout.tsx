@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 const Icons = {
@@ -34,7 +34,7 @@ const Icons = {
 
 const navItems = [
   { group: 'Gestión', items: [
-    { path: '/', label: 'dashboard', Icon: Icons.Dashboard },
+    { path: '/dashboard', label: 'dashboard', Icon: Icons.Dashboard },
     { path: '/proyectos', label: 'proyectos', Icon: Icons.Proyectos },
     { path: '/materiales', label: 'materiales', Icon: Icons.Materiales },
     { path: '/movimientos', label: 'movimientos', Icon: Icons.Movimientos },
@@ -48,7 +48,7 @@ const navItems = [
   ]},
 ]
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout() {
   const { t, i18n } = useTranslation()
   const location = useLocation()
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -155,7 +155,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         <main className="flex-1 overflow-y-auto p-3 lg:p-8">
           <div className="max-w-7xl mx-auto w-full">
-            {children}
+            <Outlet />
           </div>
         </main>
       </div>

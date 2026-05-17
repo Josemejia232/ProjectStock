@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Link, useLocation, Outlet } from 'react-router-dom'
+import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '../contexts/AuthContext'
 
 const Icons = {
   Dashboard: () => (
@@ -47,6 +48,45 @@ const navItems = [
     { path: '/reporte-insumos', label: 'insumos_por_proyecto', Icon: Icons.ReporteInsumos },
   ]},
 ]
+
+function UserMenu({ collapsed }: { collapsed: boolean }) {
+  const { user, signOut } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await signOut()
+    navigate('/login')
+  }
+
+  const email = user?.email || 'Usuario'
+  const nombre = user?.user_metadata?.nombre || email.split('@')[0]
+  const initials = nombre.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+
+  return (
+    <div className={`flex items-center gap-2 px-2 py-2 rounded-lg bg-white/5 border border-white/10 ${collapsed ? 'justify-center' : ''}`}>
+      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-xs font-bold text-white shrink-0">
+        {initials}
+      </div>
+      {!collapsed && (
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-white truncate">{nombre}</p>
+          <p className="text-[10px] text-slate-500 truncate">{email}</p>
+        </div>
+      )}
+      {!collapsed && (
+        <button
+          onClick={handleLogout}
+          className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-colors shrink-0"
+          title="Cerrar sesión"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </button>
+      )}
+    </div>
+  )
+}
 
 export default function Layout() {
   const { t, i18n } = useTranslation()
@@ -122,7 +162,7 @@ export default function Layout() {
           ))}
         </nav>
 
-        <div className="p-3 lg:p-4 mt-auto">
+        <div className="p-3 lg:p-4 space-y-2">
           <button 
             onClick={toggleLang} 
             className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs uppercase tracking-wider rounded-lg bg-white/5 hover:bg-white/10 transition-all border border-white/10"
@@ -130,6 +170,7 @@ export default function Layout() {
             <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" /></svg>
             {!collapsed && <span className="truncate">{i18n.language === 'es' ? 'English' : 'Español'}</span>}
           </button>
+          <UserMenu collapsed={collapsed} />
         </div>
       </aside>
 

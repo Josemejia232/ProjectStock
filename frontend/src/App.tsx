@@ -1,6 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
 import Layout from './components/Layout'
+import ProtectedRoute from './components/ProtectedRoute'
 import LandingPage from './pages/LandingPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 import DashboardPage from './pages/DashboardPage'
 import ProyectosPage from './pages/ProyectosPage'
 import MaterialesPage from './pages/MaterialesPage'
@@ -14,20 +18,24 @@ import ReporteInsumosPage from './pages/ReporteInsumosPage'
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route element={<Layout />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/proyectos" element={<ProyectosPage />} />
-          <Route path="/materiales" element={<MaterialesPage />} />
-          <Route path="/inventario" element={<InventarioPage />} />
-          <Route path="/movimientos" element={<MovimientosPage />} />
-          <Route path="/alertas" element={<AlertasPage />} />
-          <Route path="/facturas" element={<FacturasPage />} />
-          <Route path="/requisiciones" element={<RequisicionesPage />} />
-          <Route path="/reporte-insumos" element={<ReporteInsumosPage />} />
-        </Route>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route element={<Layout />}>
+            <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+            <Route path="/proyectos" element={<ProtectedRoute><ProyectosPage /></ProtectedRoute>} />
+            <Route path="/materiales" element={<ProtectedRoute><MaterialesPage /></ProtectedRoute>} />
+            <Route path="/inventario" element={<ProtectedRoute><InventarioPage /></ProtectedRoute>} />
+            <Route path="/movimientos" element={<ProtectedRoute><MovimientosPage /></ProtectedRoute>} />
+            <Route path="/alertas" element={<ProtectedRoute><AlertasPage /></ProtectedRoute>} />
+            <Route path="/facturas" element={<ProtectedRoute><FacturasPage /></ProtectedRoute>} />
+            <Route path="/requisiciones" element={<ProtectedRoute><RequisicionesPage /></ProtectedRoute>} />
+            <Route path="/reporte-insumos" element={<ProtectedRoute><ReporteInsumosPage /></ProtectedRoute>} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

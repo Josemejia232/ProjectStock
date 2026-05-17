@@ -154,7 +154,7 @@ export default function LandingPage() {
             }`}>
               {i18n.language === 'es' ? 'EN' : 'ES'}
             </button>
-            <Link to="/dashboard" className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold bg-white text-indigo-700 hover:bg-indigo-50 shadow-lg shadow-black/10 hover:shadow-black/20 transition-all duration-300 hover:-translate-y-0.5">
+            <Link to="/login" className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold bg-white text-indigo-700 hover:bg-indigo-50 shadow-lg shadow-black/10 hover:shadow-black/20 transition-all duration-300 hover:-translate-y-0.5">
               {t('landing_nav_enter')}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             </Link>
@@ -176,7 +176,7 @@ export default function LandingPage() {
             <button onClick={toggleLang} className="text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full border border-white/20 text-slate-300 hover:bg-white/10 hover:text-white transition-colors">
               {i18n.language === 'es' ? 'EN' : 'ES'}
             </button>
-            <Link to="/dashboard" onClick={() => setMobileMenu(false)} className="block w-full text-center px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-indigo-700 hover:bg-indigo-50 transition-colors">
+            <Link to="/login" onClick={() => setMobileMenu(false)} className="block w-full text-center px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-indigo-700 hover:bg-indigo-50 transition-colors">
               {t('landing_nav_enter')}
             </Link>
           </div>
@@ -225,7 +225,7 @@ export default function LandingPage() {
           <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-1000 delay-300 ${
             heroReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
           }`}>
-            <Link to="/dashboard" className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-indigo-700 text-base font-bold shadow-2xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+            <Link to="/login" className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-indigo-700 text-base font-bold shadow-2xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
               <span className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/5 to-indigo-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"/>
               <span className="relative">{t('landing_hero_cta')}</span>
               <svg className="relative w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
@@ -404,7 +404,7 @@ export default function LandingPage() {
           </div>
           <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-4">{t('landing_footer_cta')}</h2>
           <p className="text-slate-400 mb-8 max-w-lg mx-auto">{t('landing_footer_text')}</p>
-          <Link to="/dashboard" className="group inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white text-base font-bold shadow-2xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-1 transition-all duration-300">
+          <Link to="/login" className="group inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white text-base font-bold shadow-2xl shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-1 transition-all duration-300">
             {t('landing_hero_cta')}
             <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
           </Link>

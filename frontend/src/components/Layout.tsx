@@ -71,7 +71,11 @@ export default function Layout() {
         `}
       >
         <div className="p-4 lg:p-6 flex items-center justify-between">
-          {!collapsed && <h1 className="text-lg lg:text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent truncate">{t('app')}</h1>}
+          {!collapsed && (
+            <Link to="/" className="text-lg lg:text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent truncate hover:brightness-125 transition-all" title="Inicio / Home">
+              {t('app')}
+            </Link>
+          )}
           <button 
             onClick={() => setCollapsed(!collapsed)}
             className="hidden lg:flex p-1.5 rounded-lg hover:bg-white/10 transition-colors shrink-0"

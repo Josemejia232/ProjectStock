@@ -290,7 +290,7 @@ class UsuarioSync(BaseModel):
 
 class UsuarioOut(BaseModel):
     id: int
-    supabase_id: str
+    supabase_id: Optional[str] = None
     email: str
     nombre: str
     rol: str
@@ -298,3 +298,20 @@ class UsuarioOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class RegisterRequest(BaseModel):
+    email: str = Field(..., max_length=255)
+    password: str = Field(..., min_length=6, max_length=100)
+    nombre: str = Field(..., min_length=1, max_length=200)
+
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: UsuarioOut

@@ -1,12 +1,19 @@
 import os as _os
+from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 
+load_dotenv()
+
 _raw = _os.environ.get("DATABASE_URL", "sqlite+aiosqlite:///./inventario.db")
+import re as _re
 if _raw.startswith("postgresql://") and "+asyncpg" not in _raw:
     _raw = _raw.replace("postgresql://", "postgresql+asyncpg://")
-import re as _re
-_raw = _re.sub(r"\?.*", "", _raw)
+    _raw = _re.sub(r"[&]?channel_binding=[^&]*", "", _raw)
+    _raw = _re.sub(r"[&]?sslmode=[^&]*", "", _raw)
+    _raw = _raw.rstrip("&?")
+if _raw.startswith("sqlite"):
+    _raw = _re.sub(r"\?.*", "", _raw)
 DATABASE_URL = _raw
 
 engine = create_async_engine(DATABASE_URL, echo=False)
@@ -49,6 +56,9 @@ async def init_db():
                     "ALTER TABLE requisiciones ADD COLUMN IF NOT EXISTS aprobado_por VARCHAR(200) DEFAULT ''",
                     "ALTER TABLE requisiciones ADD COLUMN IF NOT EXISTS elaborado_por VARCHAR(200) DEFAULT ''",
                     "ALTER TABLE movimientos ADD COLUMN IF NOT EXISTS categoria VARCHAR(20) DEFAULT 'normal'",
+                    "ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS password_hash VARCHAR(255) DEFAULT NULL",
+                    "ALTER TABLE usuarios ALTER COLUMN supabase_id DROP NOT NULL",
+                    "ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS supabase_id VARCHAR(255) DEFAULT NULL",
                 ]:
                     try:
                         sync_conn.execute(text(stmt))

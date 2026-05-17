@@ -6,9 +6,18 @@ import type {
   Dashboard, Alerta, AlertaPrecio, ResumenInsumo,
   InsumoPorProyecto,
   Requisicion, RequisicionForm, RecibirForm, RequisicionDetalle,
+  Usuario, AuthRegisterForm, AuthLoginForm, TokenResponse,
 } from '../types'
 
 const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || '/api' })
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('auth_token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
 
 export const proyectosApi = {
   list: () => api.get<Proyecto[]>('/proyectos/').then(r => r.data),
@@ -82,9 +91,8 @@ export const reportesApi = {
   insumosPorProyecto: () => api.get<InsumoPorProyecto>('/reportes/insumos-por-proyecto').then(r => r.data),
 }
 
-export const usuariosApi = {
-  sync: (d: { supabase_id: string; email: string; nombre: string }) =>
-    api.post('/usuarios/sync', d).then(r => r.data),
-  get: (supabase_id: string) =>
-    api.get(`/usuarios/me/${supabase_id}`).then(r => r.data),
+export const authApi = {
+  register: (d: AuthRegisterForm) => api.post<TokenResponse>('/auth/register', d).then(r => r.data),
+  login: (d: AuthLoginForm) => api.post<TokenResponse>('/auth/login', d).then(r => r.data),
+  me: () => api.get<Usuario>('/auth/me').then(r => r.data),
 }

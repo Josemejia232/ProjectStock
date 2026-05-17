@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
+import { useAuth } from '../contexts/AuthContext'
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -14,13 +15,16 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-
-    setLoading(false)
-    if (error) {
-      setError(error.message)
-    } else {
+    try {
+      await login(email, password)
       navigate('/dashboard')
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail
+        || (err as Error)?.message
+        || 'Error al iniciar sesión'
+      setError(msg)
+    } finally {
+      setLoading(false)
     }
   }
 

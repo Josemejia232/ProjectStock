@@ -134,8 +134,9 @@ class Usuario(Base):
     __tablename__ = "usuarios"
 
     id = Column(Integer, primary_key=True, index=True)
-    supabase_id = Column(String(255), nullable=False, unique=True)
-    email = Column(String(255), nullable=False)
+    supabase_id = Column(String(255), nullable=True, unique=True)
+    email = Column(String(255), nullable=False, unique=True)
+    password_hash = Column(String(255), nullable=True)
     nombre = Column(String(200), default="")
     rol = Column(String(50), default="usuario")
     created_at = Column(DateTime, default=_now)

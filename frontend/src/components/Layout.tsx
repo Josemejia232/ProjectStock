@@ -54,12 +54,12 @@ function UserMenu({ collapsed }: { collapsed: boolean }) {
   const navigate = useNavigate()
 
   const handleLogout = async () => {
-    await signOut()
+    signOut()
     navigate('/login')
   }
 
   const email = user?.email || 'Usuario'
-  const nombre = user?.user_metadata?.nombre || email.split('@')[0]
+  const nombre = user?.nombre || email.split('@')[0]
   const initials = nombre.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
 
   return (

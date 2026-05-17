@@ -209,9 +209,26 @@ export interface Dashboard {
 
 export interface Usuario {
   id: number
-  supabase_id: string
+  supabase_id?: string
   email: string
   nombre: string
   rol: string
   created_at?: string
+}
+
+export interface AuthRegisterForm {
+  email: string
+  password: string
+  nombre: string
+}
+
+export interface AuthLoginForm {
+  email: string
+  password: string
+}
+
+export interface TokenResponse {
+  access_token: string
+  token_type: string
+  user: Usuario
 }
